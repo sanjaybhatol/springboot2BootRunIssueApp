@@ -1,0 +1,56 @@
+buildscript {
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath(
+                "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}",
+                "org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}",
+                "org.jetbrains.kotlin:kotlin-noarg:${kotlinVersion}",
+                "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}",
+                "org.jetbrains.kotlin:kotlin-noarg:${kotlinVersion}")
+    }
+
+}
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: "kotlin" // add support kotlin
+apply plugin: "kotlin-spring"  // takes care of all open classes.
+apply plugin: "kotlin-jpa" // support no-arg
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'application'
+
+
+//NOTE:
+// when you comment out the mainClassName './gradlew bootRun` command works but './gradlew clean build' command FAILS.
+// wen you keep mainClassName './gradlew clean build' will work but './gradlew bootRun' fails.
+mainClassName="au.com.test.App"
+
+compileKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "1.8"
+    }
+}
+
+dependencies {
+    compile(
+            "org.springframework.boot:spring-boot-starter-web:${springBootVersion}",
+            "com.fasterxml.jackson.module:jackson-module-kotlin:${jacksonKotlin}",
+            "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}",
+            "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}",
+    )
+
+}
